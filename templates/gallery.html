@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="page-hero">
+  <div data-aos>
+    <p class="section-eyebrow">See For Yourself</p>
+    <h1>Our Gallery</h1>
+  </div>
+  <p data-aos data-aos-delay="100">Gym spaces, equipment, and trainers in action.</p>
+</section>
+
+<section class="gallery container">
+  {% for g in gallery %}
+  <div class="gallery-item" data-aos data-category="equipment">
+    <img src="{{ g.src }}" alt="{{ g.alt }}" loading="lazy">
+    <div class="gallery-overlay">
+      <i class="fas fa-expand"></i>
+      <span>{{ g.alt }}</span>
+    </div>
+  </div>
+  {% endfor %}
+</section>
+
+<!-- Lightbox Modal -->
+<div class="lightbox" id="lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img class="lightbox-content" id="lightbox-img">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+  <button class="lightbox-nav lightbox-prev" id="lightbox-prev"><i class="fas fa-chevron-left"></i></button>
+  <button class="lightbox-nav lightbox-next" id="lightbox-next"><i class="fas fa-chevron-right"></i></button>
+</div>
+{% endblock %}

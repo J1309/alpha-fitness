@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alpha Fitness</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    html, body { margin: 0; padding: 0; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="logo" aria-label="Alpha Fitness logo">
+        <img src="{{ url_for('serve_imgs', filename='AL logo.png') }}" alt="Alpha Fitness logo" onerror="this.onerror=null; this.src='{{ url_for('static', filename='assets/logo.svg') }}'">
+      </a>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/reviews">Reviews</a>
+        <a href="/gallery">Gallery</a>
+        <a href="/contact" class="cta" style="padding: 10px 24px;"><i class="fas fa-bolt"></i> Join Now</a>
+      </nav>
+      <button class="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <nav class="mobile-nav">
+    <a href="/">Home</a>
+    <a href="/reviews">Reviews</a>
+    <a href="/gallery">Gallery</a>
+    <a href="/contact">Contact</a>
+    <a href="/contact" class="cta" style="margin: 20px 24px; text-align: center;"><i class="fas fa-bolt"></i> Join Now</a>
+  </nav>
+  <div class="mobile-nav-overlay"></div>
+
+  
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div style="margin-bottom: 14px;">
+        <a href="#"><i class="fab fa-instagram" style="margin: 0 12px; font-size: 1.3rem;"></i></a>
+        <a href="#"><i class="fab fa-facebook" style="margin: 0 12px; font-size: 1.3rem;"></i></a>
+        <a href="#"><i class="fab fa-twitter" style="margin: 0 12px; font-size: 1.3rem;"></i></a>
+        <a href="#"><i class="fab fa-youtube" style="margin: 0 12px; font-size: 1.3rem;"></i></a>
+      </div>
+      <p style="margin: 0;">© 2026 Alpha Fitness. All rights reserved. Owned by Anil Sam Joseph.</p>
+    </div>
+  </footer>
+
+  <div class="floating-cta">
+    <a href="/contact"><i class="fas fa-bolt"></i> Join Now</a>
+  </div>
+
+  <button class="back-to-top" aria-label="Back to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

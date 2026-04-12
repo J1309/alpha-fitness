@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="page-hero">
+  <div data-aos>
+    <p class="section-eyebrow">Client Stories</p>
+    <h1>What Members Say</h1>
+  </div>
+  <p data-aos data-aos-delay="100">Real reviews from our gym community</p>
+</section>
+
+<section class="reviews-summary" data-aos>
+  <div class="rating-overview">
+    <span class="rating-number">5.0</span>
+    <div class="stars-large">★★★★★</div>
+    <span class="rating-count">Based on {{ reviews|length }} reviews</span>
+  </div>
+</section>
+
+<section class="reviews-grid-section container">
+  <div class="reviews-grid-full">
+    {% for r in reviews %}
+    <div class="review-card-full" data-aos>
+      <div class="review-header">
+        <div class="reviewer-info">
+          <div class="reviewer-avatar">
+            {{ r.name[0] }}
+          </div>
+          <div class="reviewer-details">
+            <div class="reviewer-name">
+              {{ r.name }}
+              {% if r.is_local_guide %}
+              <span class="local-guide-badge"><i class="fas fa-map-marker-alt"></i> Local Guide</span>
+              {% endif %}
+            </div>
+            <div class="review-stars">★★★★★</div>
+            <div class="review-time">{{ r.time }}</div>
+          </div>
+        </div>
+        {% if r.photos %}
+        <span class="review-photos"><i class="fas fa-camera"></i></span>
+        {% endif %}
+      </div>
+      <p class="review-text">"{{ r.text }}"</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box" data-aos>
+      <h2>Ready to Join Us?</h2>
+      <p>Become part of our fitness community and start your transformation today.</p>
+      <a href="/contact" class="cta"><i class="fas fa-bolt"></i> Get Started Now</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

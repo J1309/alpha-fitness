@@ -1,0 +1,172 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="hero">
+  <div class="gradient-bars" aria-hidden="true">
+    <div class="gradient-bars-inner">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content" style="position: relative; z-index: 2;">
+    <p class="hero-eyebrow">Welcome to</p>
+    <h1><span class="highlight">ALPHA</span> FITNESS</h1>
+    <div class="hero-divider"></div>
+    <p class="hero-subtitle">Push your limits. Build strength. Transform your life.</p>
+    <a href="/contact" class="cta"><i class="fas fa-bolt"></i> Join Now</a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="stats-bar">
+    <div class="stat-item" data-aos>
+      <span class="stat-number" data-count="{{ reviews|length * 47 }}">0</span>
+      <span class="stat-label">Happy Members</span>
+    </div>
+    <div class="stat-item" data-aos>
+      <span class="stat-number" data-count="5">0</span>
+      <span class="stat-label">Star Rating</span>
+    </div>
+    <div class="stat-item" data-aos>
+      <span class="stat-number" data-count="{{ reviews|length }}">0</span>
+      <span class="stat-label">Testimonials</span>
+    </div>
+    <div class="stat-item" data-aos>
+      <span class="stat-number" data-count="8">0</span>
+      <span class="stat-label">Years Experience</span>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="services">
+  <div class="section-header" data-aos>
+    <p class="section-eyebrow">What We Offer</p>
+    <h2>Our Services</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="services-grid">
+    <div class="service-card" data-aos>
+      <div class="service-icon"><i class="fas fa-running"></i></div>
+      <h3>Adult Sports</h3>
+      <p>Stay active with our range of adult sports programs designed for all fitness levels.</p>
+    </div>
+    <div class="service-card" data-aos>
+      <div class="service-icon"><i class="fas fa-dumbbell"></i></div>
+      <h3>Crossfit</h3>
+      <p>High-intensity functional training to build strength and endurance.</p>
+    </div>
+    <div class="service-card" data-aos>
+      <div class="service-icon"><i class="fas fa-fire"></i></div>
+      <h3>HIIT Classes</h3>
+      <p>Burn calories fast with our high-intensity interval training sessions.</p>
+    </div>
+    <div class="service-card" data-aos>
+      <div class="service-icon"><i class="fas fa-apple-whole"></i></div>
+      <h3>Nutrition Consulting</h3>
+      <p>Expert nutritional guidance to complement your fitness journey.</p>
+    </div>
+    <div class="service-card" data-aos>
+      <div class="service-icon"><i class="fas fa-user-check"></i></div>
+      <h3>Personal Training</h3>
+      <p>One-on-one training sessions tailored to your specific goals.</p>
+    </div>
+    <div class="service-card" data-aos>
+      <div class="service-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+      <h3>Private Lessons</h3>
+      <p>Personalized instruction in a private setting for focused learning.</p>
+    </div>
+    <div class="service-card" data-aos>
+      <div class="service-icon"><i class="fas fa-weight-scale"></i></div>
+      <h3>Weight Training</h3>
+      <p>Build muscle and strength with our fully equipped weight room.</p>
+    </div>
+    <div class="service-card" data-aos>
+      <div class="service-icon"><i class="fas fa-child"></i></div>
+      <h3>Youth Sports</h3>
+      <p>Fitness programs designed specifically for young athletes.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="gallery-preview">
+  <div class="section-header" data-aos>
+    <p class="section-eyebrow">See For Yourself</p>
+    <h2>Our Gallery</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="home-gallery">
+    {% for g in gallery[:8] %}
+    <div class="home-gallery-item" data-aos>
+      <img src="{{ g.src }}" alt="{{ g.alt }}" loading="lazy">
+      <div class="home-gallery-overlay">
+        <i class="fas fa-expand"></i>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div style="text-align: center; margin-top: 50px;">
+    <a href="/gallery" class="cta" data-aos><i class="fas fa-images"></i> View Full Gallery</a>
+  </div>
+</section>
+
+<section class="section" id="trainers">
+  <div class="section-header" data-aos>
+    <p class="section-eyebrow">Expert Guidance</p>
+    <h2>Meet The Team</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="grid-trainers">
+    {% for t in trainers %}
+    <div class="card trainer" data-aos>
+      <img src="{{ t.image }}" alt="{{ t.name }}">
+      <div class="card-content">
+        <h3>{{ t.name }}</h3>
+        <span class="muted">{{ t.title }}</span>
+        <p>{{ t.bio }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section" id="reviews-teaser">
+  <div class="section-header" data-aos>
+    <p class="section-eyebrow">Client Stories</p>
+    <h2>What Members Say</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="reviews-teaser-grid">
+    {% for r in reviews[:3] %}
+    <div class="review-card" data-aos>
+      <div class="review-card-header">
+        <div class="reviewer-avatar-small">
+          {{ r.name[0] }}
+        </div>
+        <div>
+          <div class="reviewer-name">{{ r.name }}</div>
+          <div class="review-card-stars">★★★★★</div>
+        </div>
+      </div>
+      <p class="review-card-text">"{{ r.text[:150] }}..."</p>
+      <span class="review-card-time">{{ r.time }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  <div style="text-align: center; margin-top: 50px;">
+    <a href="/reviews" class="cta" data-aos><i class="fas fa-star"></i> Read All {{ reviews|length }} Reviews</a>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box" data-aos>
+      <h2>Ready to Transform?</h2>
+      <p>Join Alpha Fitness today and become the best version of yourself.</p>
+      <a href="/contact" class="cta"><i class="fas fa-bolt"></i> Get Started Now</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
