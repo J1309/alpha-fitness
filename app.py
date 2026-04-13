@@ -133,11 +133,11 @@ reviews = [
 
 trainers = [
     {"name": "Anil Sam Joseph", "title": "Head Trainer & Owner", "bio": "Strength & Conditioning specialist.",
-     "image": "/static/assets/trainers/jordan.svg"},
+     "image": "/static/assets/trainers/anil.png"},
     {"name": "Sajith", "title": "Trainer", "bio": "Personal Training expert.",
-     "image": "/static/assets/trainers/sam.svg"},
+     "image": "/static/assets/trainers/sajith.png"},
     {"name": "Ashna", "title": "Co-Trainer", "bio": "Mobility & Endurance expert.",
-     "image": "/static/assets/trainers/ashna.svg"},
+     "image": "/static/assets/trainers/ashna.png"},
 ]
 
 gallery = [
