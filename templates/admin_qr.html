@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin QR Code - Alpha Fitness</title>
+  <style>
+    body {
+      background: #0a0a0a;
+      color: #fff;
+      font-family: 'Space Grotesk', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      text-align: center;
+      padding: 40px;
+    }
+    h1 { color: #ff0033; margin-bottom: 10px; }
+    p { color: #888; margin-bottom: 30px; }
+    img { border: 3px solid #ff0033; border-radius: 10px; }
+    .btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 30px;
+      background: #ff0033;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>ALPHA FITNESS</h1>
+    <p>Scan to access Admin Dashboard</p>
+    <img src="{{ url_for('qr_image') }}" alt="Admin QR Code" width="250" height="250">
+    <br>
+    <a href="{{ url_for('admin_login') }}" class="btn">Open Login</a>
+  </div>
+</body>
+</html>

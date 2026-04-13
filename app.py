@@ -1,7 +1,56 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file
+import sqlite3
 import os
+import io
+from datetime import datetime
+from functools import wraps
+import qrcode
 
 app = Flask(__name__)
+app.secret_key = os.environ.get('SECRET_KEY', 'alpha-fitness-secret-key-2026')
+
+# Database path
+DATABASE = os.path.join(os.path.dirname(__file__), 'user_entries.db')
+
+# Admin password - CHANGE THIS TO YOUR DESIRED PASSWORD
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'alpha2026')
+
+def get_db():
+    """Connect to SQLite database"""
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def init_db():
+    """Initialize database and create table if not exists"""
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS entries (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT,
+            phone TEXT,
+            interest TEXT,
+            message TEXT,
+            payment_status TEXT DEFAULT 'pending',
+            created_at TEXT NOT NULL
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+# Initialize database on startup
+init_db()
+
+# Decorator for admin login
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('admin_logged_in'):
+            return redirect(url_for('admin_login'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 reviews = [
     {
@@ -112,12 +161,9 @@ gallery = [
 def home():
     return render_template("home.html", trainers=trainers, gallery=gallery, reviews=reviews)
 
-# Serve additional image assets from an 'imgs' folder at project root for logos and similar
 @app.route('/imgs/<path:filename>')
 def serve_imgs(filename):
-    # Serve from the 'imgs' directory located in the project
     root = os.path.join(app.root_path, 'imgs')
-    # Normalize path to avoid directory traversal in some environments
     return send_from_directory(root, filename)
 
 @app.route("/reviews")
@@ -131,6 +177,100 @@ def gallery_page():
 @app.route("/contact")
 def contact_page():
     return render_template("contact.html")
+
+@app.route("/submit", methods=["POST"])
+def submit_entry():
+    name = request.form.get("name")
+    email = request.form.get("email")
+    phone = request.form.get("phone")
+    interest = request.form.get("interest")
+    message = request.form.get("message")
+    created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO entries (name, email, phone, interest, message, created_at)
+        VALUES (?, ?, ?, ?, ?, ?)
+    ''', (name, email, phone, interest, message, created_at))
+    conn.commit()
+    conn.close()
+    
+    flash("Thank you! We'll contact you soon.", "success")
+    return redirect(url_for("contact_page"))
+
+# Admin Routes
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    if request.method == "POST":
+        password = request.form.get("password")
+        if password == ADMIN_PASSWORD:
+            session["admin_logged_in"] = True
+            return redirect(url_for("admin_dashboard"))
+        else:
+            flash("Incorrect password. Please try again.", "error")
+    return render_template("admin_login.html")
+
+@app.route("/admin/logout")
+def admin_logout():
+    session.pop("admin_logged_in", None)
+    flash("Logged out successfully.", "info")
+    return redirect(url_for("admin_login"))
+
+@app.route("/admin")
+@admin_required
+def admin_dashboard():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM entries ORDER BY created_at DESC")
+    entries = cursor.fetchall()
+    conn.close()
+    
+    total_entries = len(entries)
+    pending_count = len([e for e in entries if e["payment_status"] == "pending"])
+    paid_count = len([e for e in entries if e["payment_status"] == "paid"])
+    
+    return render_template("admin_dashboard.html", 
+                           entries=entries, 
+                           total_entries=total_entries,
+                           pending_count=pending_count,
+                           paid_count=paid_count)
+
+@app.route("/admin/update-status/<int:entry_id>", methods=["POST"])
+@admin_required
+def update_status(entry_id):
+    new_status = request.form.get("payment_status")
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE entries SET payment_status = ? WHERE id = ?", (new_status, entry_id))
+    conn.commit()
+    conn.close()
+    flash(f"Payment status updated to {new_status}.", "success")
+    return redirect(url_for("admin_dashboard"))
+
+@app.route("/admin/qr")
+def admin_qr_page():
+    return render_template("admin_qr.html")
+
+@app.route("/qr-image")
+def qr_image():
+    url = request.url_root.rstrip('/') + url_for('admin_login')
+    qr = qrcode.make(url)
+    buf = io.BytesIO()
+    qr.save(buf, 'PNG')
+    buf.seek(0)
+    return send_file(buf, mimetype='image/png')
+
+@app.route("/admin/delete/<int:entry_id>", methods=["POST"])
+@admin_required
+def delete_entry(entry_id):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM entries WHERE id = ?", (entry_id,))
+    conn.commit()
+    conn.close()
+    flash("Entry deleted successfully.", "success")
+    return redirect(url_for("admin_dashboard"))
 
 if __name__ == "__main__":
     app.run(debug=True)
