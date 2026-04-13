@@ -227,26 +227,10 @@ def admin_dashboard():
     conn.close()
     
     total_entries = len(entries)
-    pending_count = len([e for e in entries if e["payment_status"] == "pending"])
-    paid_count = len([e for e in entries if e["payment_status"] == "paid"])
     
     return render_template("admin_dashboard.html", 
                            entries=entries, 
-                           total_entries=total_entries,
-                           pending_count=pending_count,
-                           paid_count=paid_count)
-
-@app.route("/admin/update-status/<int:entry_id>", methods=["POST"])
-@admin_required
-def update_status(entry_id):
-    new_status = request.form.get("payment_status")
-    conn = get_db()
-    cursor = conn.cursor()
-    cursor.execute("UPDATE entries SET payment_status = ? WHERE id = ?", (new_status, entry_id))
-    conn.commit()
-    conn.close()
-    flash(f"Payment status updated to {new_status}.", "success")
-    return redirect(url_for("admin_dashboard"))
+                           total_entries=total_entries)
 
 @app.route("/admin/qr")
 def admin_qr_page():
