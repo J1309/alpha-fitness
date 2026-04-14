@@ -106,6 +106,222 @@ class ContactForm(FlaskForm):
 
 reviews = [
     {
+        "name": "DAVID ZACHARIAH PRASAD",
+        "text": "Such an excellent Gym in Kerala. The Staffs and Trainers are very friendly, will have good workout sessions with Alpha.",
+        "stars": 5,
+        "time": "4 years ago",
+        "is_local_guide": True
+    },
+    {
+        "name": "Dhuaa Manzoor",
+        "text": "Alpha fit provides a very welcoming and a peaceful environment for workouts. The place is very artistic which makes it an attraction and the services are too good to mention.",
+        "stars": 5,
+        "time": "3 years ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "S Uma Sankar",
+        "text": "Well equipped and perfectly spaced gym. Trainers are professionally experienced. The Vibe is motivational enough to push your limits everyday.",
+        "stars": 5,
+        "time": "3 years ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "lijin john",
+        "text": "Was looking for a gym to workout for few days.. checked out few places and man this one lives up to the expectation. Decently equipped for weight training and cardio / HIIT. Highly recommended.",
+        "stars": 5,
+        "time": "2 years ago",
+        "is_local_guide": False,
+        "photos": True
+    },
+    {
+        "name": "Mahesh S Nair",
+        "text": "It's well maintained and clean. The gym community is also good here. It's a healthy environment.",
+        "stars": 5,
+        "time": "2 years ago",
+        "is_local_guide": True,
+        "photos": True
+    },
+    {
+        "name": "ABHIRAJ SATHEESH",
+        "text": "Trainers are highly professional and experienced trainers. Best gym in pathanamthitta.",
+        "stars": 5,
+        "time": "a year ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "NISAM NAZER",
+        "text": "Wonderfull experience.very friendly trainer.overall feedback is awesome.",
+        "stars": 5,
+        "time": "a year ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "Restina Thomas",
+        "text": "Best trainers and best gym in town.. worth it.",
+        "stars": 5,
+        "time": "3 years ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "Alen Mathew",
+        "text": "Themost beautiful gym ever sawed",
+        "stars": 5,
+        "time": "a year ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "Abdu Salam Thalappally",
+        "text": "Nice family friendly gym",
+        "stars": 5,
+        "time": "3 years ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "Arjun Sajikumar",
+        "text": "Really nice gym with qualified trainers.",
+        "stars": 5,
+        "time": "3 years ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "Aravind Chandran",
+        "text": "Super gym and the trainers.. Just cool...",
+        "stars": 5,
+        "time": "3 years ago",
+        "is_local_guide": True,
+        "photos": True
+    },
+    {
+        "name": "Sooraj Rk",
+        "text": "Great gym",
+        "stars": 5,
+        "time": "3 years ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "Dr Prasanth Sankar",
+        "text": "Best gym in town",
+        "stars": 5,
+        "time": "4 years ago",
+        "is_local_guide": False,
+        "photos": True
+    },
+    {
+        "name": "Prince Kallukalam",
+        "text": "Professional Gym I like it",
+        "stars": 5,
+        "time": "4 years ago",
+        "is_local_guide": True
+    },
+    {
+        "name": "Shivadath Jayaraj",
+        "text": "The best in Town.",
+        "stars": 5,
+        "time": "3 years ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "Sreedhu Mahesh",
+        "text": "Good",
+        "stars": 5,
+        "time": "2 years ago",
+        "is_local_guide": True
+    },
+    {
+        "name": "Ammini Daniel",
+        "text": "Love it!",
+        "stars": 5,
+        "time": "3 years ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "Sini Sabu",
+        "text": "Amazing!",
+        "stars": 5,
+        "time": "3 years ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "Alan Mamachan",
+        "text": "Its amazing",
+        "stars": 5,
+        "time": "3 years ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "Aswin",
+        "text": "Great gym with a solid atmosphere. The equipment is well-maintained, and there's a good variety of machines and free weights. It stays clean even during busy hours. The staff is friendly and always willing to help. Highly recommend for anyone in the area looking for a consistent place to train.",
+        "stars": 5,
+        "time": "a day ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "Alfin Ninan",
+        "text": "Good atmosphere and well trained trainers and friendly people.",
+        "stars": 5,
+        "time": "4 days ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "Ragen 10",
+        "text": "Excellent facility! Clean environment, plenty of equipment, and a great vibe for working out. Definitely one of the better gyms I've been to.",
+        "stars": 5,
+        "time": "4 days ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "Dhaannn",
+        "text": "Gym is very nice and great.",
+        "stars": 5,
+        "time": "4 days ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "Chris",
+        "text": "Good experience",
+        "stars": 5,
+        "time": "4 days ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "Cecil Mandapathil Casablanca",
+        "text": "Very good gym in Pathanamthitta for family. Better equipments compared to other gyms in Pathanamthitta.",
+        "stars": 5,
+        "time": "2 weeks ago",
+        "is_local_guide": True
+    },
+    {
+        "name": "Ritwika Manoj",
+        "text": "Very friendly trainers and friendly atmosphere. Good service.",
+        "stars": 5,
+        "time": "a month ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "Akhil Mohan",
+        "text": "Definitely the best gym in Pathanamthitta!",
+        "stars": 5,
+        "time": "3 years ago",
+        "is_local_guide": True,
+        "photos": True
+    },
+    {
+        "name": "Joshua Mavelil",
+        "text": "The perfect place for exercise. A welcoming atmosphere, expert staff...",
+        "stars": 5,
+        "time": "4 years ago",
+        "is_local_guide": False
+    },
+    {
+        "name": "Soul Sayshi",
+        "text": "Best gym in Pathanamthitta",
+        "stars": 5,
+        "time": "a year ago",
+        "is_local_guide": False,
+        "photos": True
+    },
+    {
         "name": "Sangeeth S",
         "text": "A good fitness center is more than just a place to exercise; it is a motivating and supportive environment where people work towards a healthier lifestyle. It is clean, spacious, and well-equipped with modern machines and quality workout.",
         "stars": 5,
@@ -114,7 +330,7 @@ reviews = [
     },
     {
         "name": "Mahadev Mahi",
-        "text": "The gym was soo nice and such a great ambiance. The trainers are soo supportive. This gym don't have any age restriction. Once we came here to workout we never skip a day for cheating. I like this gym soo much. Everyone should visit and take there workout here.",
+        "text": "The gym was soo nice and such a great ambiance. The trainers are soo supportive. This gym don't have any age restriction. Once we came here to workout we never skip a day for cheating. I like this gym soo much.",
         "stars": 5,
         "time": "a month ago",
         "is_local_guide": False
@@ -127,16 +343,8 @@ reviews = [
         "is_local_guide": True
     },
     {
-        "name": "Ronak Roy",
-        "text": "Alpha Fitness Club is an amazing gym with top-notch equipment and fantastic trainers! The staff is friendly and knowledgeable, and the atmosphere is always motivating and supportive. I've seen great results since joining, and I highly recommend it to anyone looking to achieve their fitness goals.",
-        "stars": 5,
-        "time": "8 months ago",
-        "is_local_guide": False,
-        "photos": True
-    },
-    {
         "name": "Renju George Thoppil",
-        "text": "If you want to have a premium experience of a Health Club at the heart of Pathanamthitta, with Quality oriented machines, equipment and trainers who have completed their NASM certification then Alpha Fitness is your next stop. The Health Club is equipped with world class equipment and the staff will guide you with care to learn and breakdown movements to smaller achievable results. You can go on a regular day either in the morning or evening and come across a community of people who workout together like a family in a mild manner.",
+        "text": "If you want to have a premium experience of a Health Club at the heart of Pathanamthitta, with Quality oriented machines, equipment and trainers who have completed their NASM certification then Alpha Fitness is your next stop. The Health Club is equipped with world class equipment.",
         "stars": 5,
         "time": "4 years ago",
         "is_local_guide": True,
@@ -144,7 +352,7 @@ reviews = [
     },
     {
         "name": "Ameer Muhammed",
-        "text": "The gym is very awesom. The trainers Aju bro, Sheyas bro and Alan bro. They are very supporting and very helping trainers. The training is very nice and amzing ambience. I love this gym. I would recommend everyone to join this gym.",
+        "text": "The gym is very awesom. The trainers are very supporting and very helping trainers. The training is very nice and amzing ambience. I love this gym.",
         "stars": 5,
         "time": "a year ago",
         "is_local_guide": False,
@@ -175,7 +383,7 @@ reviews = [
     },
     {
         "name": "Sonia Prathap",
-        "text": "Exercise should be regarded as a Tribute to our Body. Of all the paths you step in Life, make sure to take a few steps towards Alpha Fitness. Why?? Because, The Quality of the Equipments, The Safety and Comfort, The Availability of Modern Amenities, Aesthetic Appeal of the Facility and Above all Friendly Attitude of Professionally Experienced Staff makes Alpha Fitness a Perfect Place for Workouts. The Best Gym... Ever Seen in Pathanamthitta.",
+        "text": "Exercise should be regarded as a Tribute to our Body. Of all the paths you step in Life, make sure to take a few steps towards Alpha Fitness. Why?? Because, The Quality of the Equipments, The Safety and Comfort, The Availability of Modern Amenities, Aesthetic Appeal of the Facility and Above all Friendly Attitude of Professionally Experienced Staff makes Alpha Fitness a Perfect Place for Workouts.",
         "stars": 5,
         "time": "3 years ago",
         "is_local_guide": False,
