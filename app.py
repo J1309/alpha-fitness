@@ -394,7 +394,6 @@ gallery = [
     {"src": "/static/assets/gallery/2022-10-19.webp", "alt": "Training Session"},
     {"src": "/static/assets/gallery/2023-01-17.webp", "alt": "Workout Area"},
     {"src": "/static/assets/gallery/2024-01-06.webp", "alt": "Fitness Training"},
-    {"src": "/static/assets/gallery/2024-01-06 (1).webp", "alt": "Gym Session"},
     {"src": "/static/assets/gallery/2026-03-08.webp", "alt": "Alpha Fitness"},
     {"src": "/static/assets/gallery/IMG-20211211-WA0291.webp", "alt": "Gym Interior"},
     {"src": "/static/assets/gallery/SAVE_20211204_200102.webp", "alt": "Training"},
