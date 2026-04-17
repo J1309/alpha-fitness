@@ -39,7 +39,7 @@ limiter = Limiter(
 DATABASE = os.path.join(os.path.dirname(__file__), 'user_entries.db')
 
 # Admin password
-ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'alpha2026')
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'Anil007')
 
 
 def sanitize_input(text, max_length=500):
