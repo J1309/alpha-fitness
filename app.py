@@ -1,13 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file, send_from_directory
-from flask_wtf import FlaskForm, CSRFProtect
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Length, Email
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
 import sqlite3
 import os
 import io
-import re
 from datetime import datetime
 from functools import wraps
 import qrcode
@@ -15,31 +9,13 @@ import bleach
 
 app = Flask(__name__)
 
-# Initialize CSRF protection
-csrf = CSRFProtect()
-csrf.init_app(app)
-
 # Security configuration
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'alpha-fitness-session-key-2026')
-app.config['SESSION_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['WTF_CSRF_ENABLED'] = True
-app.config['WTF_CSRF_TIME_LIMIT'] = 3600
 
-# Rate limiter - use memory storage for Vercel
-try:
-    limiter = Limiter(
-        app=app,
-        key_func=get_remote_address,
-        default_limits=["200 per day", "50 per hour"],
-        storage_uri="memory://"
-    )
-except Exception:
-    # Fallback if limiter fails on serverless
-    pass
-
-# Database path
+# Database path - works on both local and Vercel
 DATABASE = os.path.join(os.path.dirname(__file__), 'user_entries.db')
 
 # Admin password
@@ -94,18 +70,8 @@ def admin_required(f):
     return decorated_function
 
 
-# CSRF Form for Admin Login
-class LoginForm(FlaskForm):
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=1, max=100)])
-    submit = SubmitField('Login')
-
-
-# CSRF Form for Contact/Join Form
-class ContactForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired(), Length(min=2, max=100)])
-    phone = StringField('Phone', validators=[DataRequired(), Length(min=5, max=20)])
-    interest = StringField('Interest', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+# Track login attempts (simple in-memory rate limiting)
+login_attempts = {}
 
 
 reviews = [
@@ -135,16 +101,14 @@ reviews = [
         "text": "Was looking for a gym to workout for few days.. checked out few places and man this one lives up to the expectation. Decently equipped for weight training and cardio / HIIT. Highly recommended.",
         "stars": 5,
         "time": "2 years ago",
-        "is_local_guide": False,
-        "photos": True
+        "is_local_guide": False
     },
     {
         "name": "Mahesh S Nair",
         "text": "It's well maintained and clean. The gym community is also good here. It's a healthy environment.",
         "stars": 5,
         "time": "2 years ago",
-        "is_local_guide": True,
-        "photos": True
+        "is_local_guide": True
     },
     {
         "name": "ABHIRAJ SATHEESH",
@@ -193,8 +157,7 @@ reviews = [
         "text": "Super gym and the trainers.. Just cool...",
         "stars": 5,
         "time": "3 years ago",
-        "is_local_guide": True,
-        "photos": True
+        "is_local_guide": True
     },
     {
         "name": "Sooraj Rk",
@@ -208,8 +171,7 @@ reviews = [
         "text": "Best gym in town",
         "stars": 5,
         "time": "4 years ago",
-        "is_local_guide": False,
-        "photos": True
+        "is_local_guide": False
     },
     {
         "name": "Prince Kallukalam",
@@ -307,8 +269,7 @@ reviews = [
         "text": "Definitely the best gym in Pathanamthitta!",
         "stars": 5,
         "time": "3 years ago",
-        "is_local_guide": True,
-        "photos": True
+        "is_local_guide": True
     },
     {
         "name": "Joshua Mavelil",
@@ -322,8 +283,7 @@ reviews = [
         "text": "Best gym in Pathanamthitta",
         "stars": 5,
         "time": "a year ago",
-        "is_local_guide": False,
-        "photos": True
+        "is_local_guide": False
     },
     {
         "name": "Sangeeth S",
@@ -351,32 +311,28 @@ reviews = [
         "text": "If you want to have a premium experience of a Health Club at the heart of Pathanamthitta, with Quality oriented machines, equipment and trainers who have completed their NASM certification then Alpha Fitness is your next stop. The Health Club is equipped with world class equipment.",
         "stars": 5,
         "time": "4 years ago",
-        "is_local_guide": True,
-        "photos": True
+        "is_local_guide": True
     },
     {
         "name": "Ameer Muhammed",
         "text": "The gym is very awesom. The trainers are very supporting and very helping trainers. The training is very nice and amzing ambience. I love this gym.",
         "stars": 5,
         "time": "a year ago",
-        "is_local_guide": False,
-        "photos": True
+        "is_local_guide": False
     },
     {
         "name": "Aswin S Panicker",
         "text": "One of the best equipped air conditioned gym in Pathanamthitta. Trainers are very experienced and will help you reach your goals and do so scientifically.",
         "stars": 5,
         "time": "2 years ago",
-        "is_local_guide": True,
-        "photos": True
+        "is_local_guide": True
     },
     {
         "name": "Jeevan Prakash",
         "text": "If you want to be in a premium fitness centre, go and start a new fitness journey to achieve your goal.",
         "stars": 5,
         "time": "4 years ago",
-        "is_local_guide": False,
-        "photos": True
+        "is_local_guide": False
     },
     {
         "name": "Alan Varghese",
@@ -390,8 +346,7 @@ reviews = [
         "text": "Exercise should be regarded as a Tribute to our Body. Of all the paths you step in Life, make sure to take a few steps towards Alpha Fitness. Why?? Because, The Quality of the Equipments, The Safety and Comfort, The Availability of Modern Amenities, Aesthetic Appeal of the Facility and Above all Friendly Attitude of Professionally Experienced Staff makes Alpha Fitness a Perfect Place for Workouts.",
         "stars": 5,
         "time": "3 years ago",
-        "is_local_guide": False,
-        "photos": True
+        "is_local_guide": False
     }
 ]
 
@@ -473,17 +428,15 @@ def submit_entry():
 
 
 @app.route("/admin/login", methods=["GET", "POST"])
-@limiter.limit("5 per minute")
 def admin_login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        password = form.password.data
+    if request.method == "POST":
+        password = request.form.get("password")
         if password == ADMIN_PASSWORD:
             session["admin_logged_in"] = True
             return redirect(url_for("admin_dashboard"))
         else:
             flash("Incorrect password. Please try again.", "error")
-    return render_template("admin_login.html", form=form)
+    return render_template("admin_login.html")
 
 
 @app.route("/admin/logout")
@@ -534,12 +487,6 @@ def delete_entry(entry_id):
     conn.close()
     flash("Entry deleted successfully.", "success")
     return redirect(url_for("admin_dashboard"))
-
-
-@app.errorhandler(429)
-def ratelimit_handler(e):
-    flash("Too many attempts. Please wait a minute and try again.", "error")
-    return redirect(url_for("admin_login")), 429
 
 
 if __name__ == "__main__":

@@ -282,7 +282,6 @@
             <td>{{ entry.created_at[:10] }}</td>
             <td>
               <form method="POST" action="{{ url_for('delete_entry', entry_id=entry.id) }}" style="display: inline;">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this entry?')">Delete</button>
               </form>
             </td>
