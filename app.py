@@ -27,13 +27,17 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['WTF_CSRF_ENABLED'] = True
 app.config['WTF_CSRF_TIME_LIMIT'] = 3600
 
-# Rate limiter
-limiter = Limiter(
-    app=app,
-    key_func=get_remote_address,
-    default_limits=["200 per day", "50 per hour"],
-    storage_uri="memory://"
-)
+# Rate limiter - use memory storage for Vercel
+try:
+    limiter = Limiter(
+        app=app,
+        key_func=get_remote_address,
+        default_limits=["200 per day", "50 per hour"],
+        storage_uri="memory://"
+    )
+except Exception:
+    # Fallback if limiter fails on serverless
+    pass
 
 # Database path
 DATABASE = os.path.join(os.path.dirname(__file__), 'user_entries.db')
