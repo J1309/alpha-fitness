@@ -403,6 +403,10 @@ gallery = [
     {"src": "/static/assets/gallery/unnamed (3).webp", "alt": "Training Area"},
     {"src": "/static/assets/gallery/unnamed (4).webp", "alt": "Alpha Gym"},
     {"src": "/static/assets/gallery/unnamed (5).webp", "alt": "Fitness Club"},
+    {"src": "/static/assets/gallery/new img1.jpeg", "alt": "Alpha Fitness"},
+    {"src": "/static/assets/gallery/new img2.jpeg", "alt": "Gym Training"},
+    {"src": "/static/assets/gallery/new img3.jpeg", "alt": "Workout Session"},
+    {"src": "/static/assets/gallery/new img4.jpeg", "alt": "Fitness Center"},
 ]
 
 
