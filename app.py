@@ -12,6 +12,35 @@ from datetime import datetime
 from functools import wraps
 import qrcode
 import bleach
+import resend
+
+# Email configuration
+RESEND_API_KEY = os.environ.get('RESEND_API_KEY', 're_U2vRRsDJ_KV8CMedr6djxDAkynZpXivkf')
+OWNER_EMAIL = "alphafitnessclub9019@gmail.com"
+
+def send_notification_email(name, phone, interest):
+    """Send email notification to owner when someone joins"""
+    try:
+        resend.api_key = RESEND_API_KEY
+        
+        email_html = f"""
+        <h2>New Membership Inquiry - Alpha Fitness</h2>
+        <p><strong>Name:</strong> {name}</p>
+        <p><strong>Phone:</strong> {phone}</p>
+        <p><strong>Interested Plan:</strong> {interest}</p>
+        <hr>
+        <p>Contact this person immediately!</p>
+        """
+        
+        r = resend.Emails.send({
+            "from": "Alpha Fitness <onboarding@resend.dev>",
+            "to": OWNER_EMAIL,
+            "subject": f"New Member Inquiry from {name}",
+            "html": email_html
+        })
+        print(f"Email sent successfully: {r}")
+    except Exception as e:
+        print(f"Failed to send email: {e}")
 
 app = Flask(__name__)
 
@@ -455,6 +484,9 @@ def submit_entry():
     ''', (name, None, phone, interest, None, created_at))
     conn.commit()
     conn.close()
+
+    # Send notification email to owner
+    send_notification_email(name, phone, interest)
 
     flash("Thank you! We'll contact you soon.", "success")
     return redirect(url_for("contact_page"))
